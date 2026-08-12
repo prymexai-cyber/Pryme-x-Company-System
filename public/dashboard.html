@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pryme X | Command Center</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<div class="app-shell">
+  <!-- SIDEBAR -->
+  <nav class="sidebar glass" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-mark">PX</div>
+      <div>
+        <div class="name">PRYME X</div>
+        <div class="sub">AI CYBER SOLUTIONS</div>
+      </div>
+    </div>
+
+    <div class="nav-item active" data-section="overview">📊 Overview</div>
+    <div class="nav-item" data-section="chat">💬 Team Chat</div>
+    <div class="nav-item" data-section="meeting">🎥 Video Meeting</div>
+    <div class="nav-item" data-section="clocks">🌐 World Clocks</div>
+    <div class="nav-item" id="navInbox" data-section="inbox" style="display:none;">📧 Live Inbox</div>
+    <div class="nav-item" id="navStaff" data-section="staff" style="display:none;">🛡️ Staff Management</div>
+    <div class="nav-item" data-section="profile">👤 My Profile</div>
+
+    <div class="nav-spacer"></div>
+    <div class="nav-item" id="logoutBtn">🚪 Sign Out</div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar glass">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button class="mobile-toggle btn btn-icon" id="mobileMenuBtn">☰</button>
+        <h2 id="sectionTitle">Overview</h2>
+      </div>
+      <div class="right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><div class="knob"></div></button>
+        <div id="topbarUser" style="display:flex; align-items:center; gap:10px;"></div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <section class="section active" id="section-overview">
+      <div class="grid grid-3" style="margin-bottom:20px;">
+        <div class="metric-card glass completed">
+          <div class="label">Completed Projects</div>
+          <div class="value" id="metricCompleted">0</div>
+        </div>
+        <div class="metric-card glass active">
+          <div class="label">Active Projects</div>
+          <div class="value" id="metricActive">0</div>
+        </div>
+        <div class="metric-card glass failed">
+          <div class="label">Failed Projects</div>
+          <div class="value" id="metricFailed">0</div>
+        </div>
+      </div>
+
+      <div class="glass card" id="metricEditCard" style="display:none; margin-bottom:20px;">
+        <h3 style="margin-top:0;">Update Live Metrics</h3>
+        <div class="grid grid-3">
+          <div class="field"><label>Completed</label><input type="number" id="inputCompleted" min="0" /></div>
+          <div class="field"><label>Active</label><input type="number" id="inputActive" min="0" /></div>
+          <div class="field"><label>Failed</label><input type="number" id="inputFailed" min="0" /></div>
+        </div>
+        <button class="btn btn-primary" id="saveMetricsBtn">Save Metrics</button>
+      </div>
+
+      <div class="glass card">
+        <h3 style="margin-top:0;">Team Presence</h3>
+        <ul class="presence-list" id="overviewPresence"></ul>
+      </div>
+    </section>
+
+    <!-- CHAT -->
+    <section class="section" id="section-chat">
+      <div class="chat-layout">
+        <div class="glass chat-sidebar">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <strong style="font-size:13px;">Groups</strong>
+            <button class="btn btn-sm btn-primary" id="newGroupBtn" style="display:none;">+ New</button>
+          </div>
+          <div id="groupList"></div>
+        </div>
+        <div class="glass chat-main">
+          <div class="chat-header">
+            <div>
+              <strong id="activeGroupName">Select a group</strong>
+              <div style="font-size:11.5px; color:var(--text-2);" id="activeGroupMeta"></div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-sm" id="leaveGroupBtn" style="display:none;">Leave Group</button>
+              <button class="btn btn-sm btn-danger" id="deleteGroupBtn" style="display:none;">Delete Group</button>
+            </div>
+          </div>
+          <div class="chat-messages" id="chatMessages"></div>
+          <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Type a message…" disabled />
+            <button class="btn btn-primary" id="sendMsgBtn" disabled>Send</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEETING -->
+    <section class="section" id="section-meeting">
+      <div class="glass card" style="margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h3 style="margin:0 0 4px;">Live Video Meeting Room</h3>
+          <p style="margin:0; font-size:13px; color:var(--text-2);" id="meetingStatus">No meeting is currently live.</p>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-primary" id="startMeetingBtn" style="display:none;">Start Meeting</button>
+          <button class="btn btn-danger" id="endMeetingBtn" style="display:none;">End Meeting</button>
+          <button class="btn" id="joinMeetingBtn" style="display:none;">Join Meeting</button>
+        </div>
+      </div>
+      <div class="glass card">
+        <div class="video-grid" id="videoGrid"></div>
+        <div class="video-controls" id="videoControls" style="display:none;">
+          <button class="btn btn-icon" id="toggleMicBtn">🎙️</button>
+          <button class="btn btn-icon" id="toggleCamBtn">📷</button>
+          <button class="btn btn-danger" id="leaveCallBtn">Leave Call</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLOCKS -->
+    <section class="section" id="section-clocks">
+      <div class="glass card" style="margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="margin:0;">Global Command Clocks</h3>
+        <button class="btn btn-sm" id="editClocksBtn" style="display:none;">Edit Clocks</button>
+      </div>
+      <div class="clock-grid" id="clockGrid"></div>
+    </section>
+
+    <!-- LIVE INBOX (Full Access only) -->
+    <section class="section" id="section-inbox">
+      <div class="glass card" style="margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <h3 style="margin:0 0 4px;">Live Corporate Inbox</h3>
+          <p style="margin:0; font-size:12.5px; color:var(--text-2);" id="inboxMeta">Connected via Gmail IMAP — read-only, live, nothing cached.</p>
+        </div>
+        <button class="btn btn-sm" id="refreshInboxBtn">🔄 Refresh</button>
+      </div>
+      <div class="glass card" style="padding:0; overflow:hidden;">
+        <div id="inboxList"></div>
+      </div>
+    </section>
+
+    <!-- STAFF MANAGEMENT (CEO only) -->
+    <section class="section" id="section-staff">
+      <div class="glass card" style="margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="margin:0;">Staff Directory</h3>
+        <button class="btn btn-primary" id="inviteStaffBtn">+ Invite Staff Member</button>
+      </div>
+      <div class="glass card" style="overflow-x:auto;">
+        <table class="staff">
+          <thead>
+            <tr><th>Name</th><th>Position</th><th>Access</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="staffTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="section" id="section-profile">
+      <div class="glass card" style="max-width:520px;">
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+          <div class="avatar" id="profileAvatar" style="width:64px; height:64px; font-size:22px;"></div>
+          <div>
+            <div style="font-weight:700; font-size:17px;" id="profileUsername"></div>
+            <span class="badge badge-gold" id="profileBadge"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Job Position</label>
+          <input type="text" id="profileJobPosition" maxlength="80" />
+        </div>
+        <div class="field">
+          <label>About / Description</label>
+          <textarea id="profileDescription" rows="4" maxlength="500"></textarea>
+        </div>
+        <div class="field">
+          <label>Avatar Accent Color</label>
+          <input type="color" id="profileColor" style="height:44px; padding:4px;" />
+        </div>
+        <button class="btn btn-primary" id="saveProfileBtn">Save Profile</button>
+
+        <hr style="border-color:var(--glass-border); margin:24px 0;" />
+
+        <h4>Change Password</h4>
+        <div class="field"><label>Current Password</label><input type="password" id="curPassword" /></div>
+        <div class="field"><label>New Password</label><input type="password" id="newPassword" /></div>
+        <button class="btn" id="changePassBtn">Update Password</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- INVITE MODAL -->
+<div class="modal-overlay" id="inviteModal">
+  <div class="modal-box glass">
+    <h3>Invite Staff Member</h3>
+    <div class="field"><label>Username</label><input type="text" id="inv_username" /></div>
+    <div class="field"><label>Email Address</label><input type="email" id="inv_email" /></div>
+    <div class="field"><label>Temporary Password</label><input type="text" id="inv_password" /></div>
+    <div class="field"><label>Job Position</label><input type="text" id="inv_position" placeholder="e.g. Cybersecurity Analyst" /></div>
+    <div class="field">
+      <label>Access Level</label>
+      <div class="checkbox-row"><input type="radio" name="inv_access" value="FULL" id="inv_full" /><label for="inv_full" style="margin:0; text-transform:none;">Full System Access</label></div>
+      <div class="checkbox-row"><input type="radio" name="inv_access" value="PREVIEW" id="inv_preview" checked /><label for="inv_preview" style="margin:0; text-transform:none;">Preview Only</label></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="inviteCancelBtn">Cancel</button>
+      <button class="btn btn-primary" id="inviteSubmitBtn">Send Invitation</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW GROUP MODAL -->
+<div class="modal-overlay" id="groupModal">
+  <div class="modal-box glass">
+    <h3>Create Chat Group</h3>
+    <div class="field"><label>Group Name</label><input type="text" id="grp_name" /></div>
+    <div class="field"><label>Description</label><input type="text" id="grp_desc" /></div>
+    <div class="field">
+      <label>Add Members</label>
+      <div id="grp_members" style="max-height:160px; overflow-y:auto; border:1px solid var(--glass-border); border-radius:9px; padding:8px;"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="groupCancelBtn">Cancel</button>
+      <button class="btn btn-primary" id="groupSubmitBtn">Create Group</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT CLOCKS MODAL -->
+<div class="modal-overlay" id="clocksModal">
+  <div class="modal-box glass" style="max-width:560px;">
+    <h3>Edit Global Clocks</h3>
+    <div id="clocksEditList"></div>
+    <div class="modal-actions">
+      <button class="btn" id="clocksCancelBtn">Cancel</button>
+      <button class="btn btn-primary" id="clocksSaveBtn">Save Clocks</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMAIL DETAIL MODAL -->
+<div class="modal-overlay" id="emailModal">
+  <div class="modal-box glass" style="max-width:600px;">
+    <h3 id="email_subject">Subject</h3>
+    <p style="font-size:12.5px; color:var(--text-2); margin:0 0 4px;" id="email_from"></p>
+    <p style="font-size:12.5px; color:var(--text-2); margin:0 0 16px;" id="email_date"></p>
+    <div id="email_body" style="white-space:pre-wrap; font-size:13.5px; max-height:50vh; overflow-y:auto; line-height:1.5;"></div>
+    <div class="modal-actions">
+      <button class="btn" id="emailCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="/js/theme.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/dashboard.js"></script>
+<script src="/js/clock.js"></script>
+<script src="/js/chat.js"></script>
+<script src="/js/webrtc.js"></script>
+<script src="/js/inbox.js"></script>
+</body>
+</html>

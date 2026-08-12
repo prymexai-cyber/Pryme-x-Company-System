@@ -1,0 +1,53 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy: Render Dashboard → New → Blueprint → select this repo.
+# Render will provision the web service below. You still need to supply
+# secret values (marked sync: false) in the Render dashboard after the
+# first deploy, then run the seed script once from the Render Shell tab:
+#   npm run seed
+
+services:
+  - type: web
+    name: pryme-x-command-center
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: JWT_SECRET
+        generateValue: true
+
+      - key: JWT_EXPIRES_IN
+        value: 7d
+
+      # ---- Set these manually in the Render dashboard (Environment tab) ----
+      - key: CLIENT_URL
+        sync: false          # e.g. https://pryme-x-command-center.onrender.com
+
+      - key: MONGO_URI
+        sync: false          # MongoDB Atlas connection string
+
+      - key: ADMIN1_USERNAME
+        value: Yash2009lk
+      - key: ADMIN1_PASSWORD
+        sync: false
+      - key: ADMIN1_EMAIL
+        sync: false
+
+      - key: ADMIN2_USERNAME
+        value: Ya23@runp
+      - key: ADMIN2_PASSWORD
+        sync: false
+      - key: ADMIN2_EMAIL
+        sync: false
+
+      - key: GMAIL_USER
+        sync: false          # sending + IMAP inbox account
+      - key: GMAIL_APP_PASSWORD
+        sync: false          # 16-char Gmail App Password (IMAP must be enabled)

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pryme X | Command Center Login</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="login-wrap">
+    <button class="theme-toggle" id="themeToggle" style="position:absolute; top:24px; right:24px;" aria-label="Toggle theme">
+      <div class="knob"></div>
+    </button>
+
+    <div class="login-card glass">
+      <div class="login-brand">
+        <div class="logo-mark">PX</div>
+        <h1 class="metallic-text">PRYME X AI CYBER SOLUTIONS</h1>
+        <p>EXECUTIVE COMMAND CENTER</p>
+      </div>
+
+      <div class="error-banner" id="errorBanner"></div>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" autocomplete="username" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; padding:13px;" id="loginBtn">
+          Sign In to Command Center
+        </button>
+      </form>
+      <p style="text-align:center; font-size:11.5px; color:var(--text-2); margin-top:22px;">
+        Authorized personnel only. All access is logged.
+      </p>
+    </div>
+  </div>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/login.js"></script>
+</body>
+</html>
