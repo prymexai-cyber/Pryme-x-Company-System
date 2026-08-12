@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pryme X | Command Center</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div style="min-height:100vh; display:flex; align-items:center; justify-content:center;">
+    <div class="metallic-text" style="font-size:20px;">Loading Command Center…</div>
+  </div>
+  <script>
+    const hasToken = !!localStorage.getItem('px_token');
+    location.replace(hasToken ? '/dashboard.html' : '/login.html');
+  </script>
+</body>
+</html>
